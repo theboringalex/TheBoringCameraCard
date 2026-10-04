@@ -11,7 +11,7 @@ camera's speaker, and a strip of past recordings you can scroll through and
 tap to play. No coding and no YAML needed to set it up — just pick your
 camera from a dropdown.
 
-<p align="center"><img src="docs/screenshot.png" width="320" alt="The Boring Camera Card in a Home Assistant dashboard"></p>
+<p align="center"><img src="docs/screenshot.jpg" width="320" alt="The Boring Camera Card in a Home Assistant dashboard"></p>
 
 ## What it does
 

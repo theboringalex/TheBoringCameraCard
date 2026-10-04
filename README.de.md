@@ -11,7 +11,7 @@ zum Sprechen über den Kamera-Lautsprecher, und eine Leiste mit vergangenen
 Aufnahmen zum Durchblättern und Abspielen. Keine Programmierung, kein YAML
 nötig — einfach deine Kamera aus einer Liste auswählen.
 
-<p align="center"><img src="docs/screenshot.png" width="320" alt="The Boring Camera Card in einem Home-Assistant-Dashboard"></p>
+<p align="center"><img src="docs/screenshot.jpg" width="320" alt="The Boring Camera Card in einem Home-Assistant-Dashboard"></p>
 
 ## Was sie kann
 
