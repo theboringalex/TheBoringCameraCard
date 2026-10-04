@@ -11,7 +11,7 @@ zum Sprechen über den Kamera-Lautsprecher, und eine Leiste mit vergangenen
 Aufnahmen zum Durchblättern und Abspielen. Keine Programmierung, kein YAML
 nötig — einfach deine Kamera aus einer Liste auswählen.
 
-![Screenshot-Platzhalter](docs/screenshot.png)
+<p align="center"><img src="docs/screenshot.png" width="320" alt="The Boring Camera Card in einem Home-Assistant-Dashboard"></p>
 
 ## Was sie kann
 
@@ -21,6 +21,7 @@ nötig — einfach deine Kamera aus einer Liste auswählen.
 - Lang drücken auf eine Aufnahme zum Herunterladen oder Löschen, oder einfach doppelt klicken/tippen zum sofortigen Herunterladen
 - Wähle das Seitenverhältnis, das zu deiner Kamera passt: breit (16:9), klassisch (4:3), quadratisch (1:1) oder hoch (3:4, ideal für Türklingeln)
 - Bietet deine Kamera zwei Videoqualitäten an (üblich bei Reolink-Kameras), kann die Karte die niedrigere nutzen, um Daten zu sparen, solange du nur kurz hinschaust — und wechselt automatisch zur vollen Qualität, sobald du ins Vollbild gehst
+- Ein **Auto-Livestream**-Schalter neben SD/HD (pro Kamera): an = das Live-Bild startet von selbst, sobald die Karte sichtbar ist (z. B. beim Öffnen eines Pop-ups), und stoppt beim Schließen; aus = es startet erst per Play-Knopf
 - Ein einfacher, visueller Einstellungsbildschirm — Formular ausfüllen, kein Code nötig
 
 ## Was du vorher brauchst

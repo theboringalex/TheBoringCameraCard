@@ -125,6 +125,7 @@ if (!customElements.get('the-boring-camera-card')) {
         _pttActive: { state: true },
         _pttAvailable: { state: true },
         _streamOverride: { state: true },
+        _autoLive: { state: true },
       };
     }
 
@@ -165,6 +166,9 @@ if (!customElements.get('the-boring-camera-card')) {
       // null = automatisch (Substream normal, Hauptstream im Vollbild) - 'main'/'sub',
       // sobald der Nutzer per Hand über den Button unter der Timeline umgeschaltet hat.
       this._streamOverride = null;
+      this._autoLive = this._loadAutoLive();
+      this._autoArmed = true;
+      this._offscreenTicks = 0;
       this._byDate = new Map();
       this._folderMode = 'flat'; // 'day' | 'nested' | 'flat'
       this._booted = false;
@@ -184,12 +188,19 @@ if (!customElements.get('the-boring-camera-card')) {
     connectedCallback() {
       super.connectedCallback();
       this._loadThumbCacheFromStorage();
+      if (this._liveActive && !this._pc) {
+        this._liveActive = false;
+        this._liveFrozen = false;
+        this._autoArmed = true;
+      }
+      this._startAutoWatch();
     }
 
     disconnectedCallback() {
       super.disconnectedCallback();
       if (this._isFullscreen) document.body.style.overflow = '';
       this._stopVisibilityWatch();
+      this._stopAutoWatch();
       this._disconnectLive();
       clearTimeout(this._longPressTimer);
     }
@@ -805,6 +816,86 @@ if (!customElements.get('the-boring-camera-card')) {
       this._connectedStreamName = null;
     }
 
+    // ---------- Auto-Livestream ----------
+    // Schalter je Kamera (localStorage, Schluessel = Kamera-Entity, Standard: an).
+    // An: Sobald die Karte sichtbar ist (z.B. Pop-up geoeffnet), startet der Livestream
+    // von selbst. Schliesst sich das Pop-up, beendet die Sichtbarkeits-Ueberwachung den
+    // Stream wieder. Aus: Der Stream startet erst per Play-Button.
+    // Nach manuellem Beenden (X) startet er NICHT sofort neu, sondern erst, wenn die
+    // Karte zwischenzeitlich unsichtbar war (_autoArmed).
+    _autoKey() {
+      return 'the-boring-camera-card-autolive:' + ((this.config && this.config.entity) || '');
+    }
+
+    _loadAutoLive() {
+      try {
+        const v = window.localStorage.getItem(this._autoKey());
+        return v === null ? true : v === '1';
+      } catch (e) {
+        return true;
+      }
+    }
+
+    _toggleAutoLive() {
+      this._autoLive = !this._autoLive;
+      try {
+        window.localStorage.setItem(this._autoKey(), this._autoLive ? '1' : '0');
+      } catch (e) {}
+      if (this._autoLive) {
+        this._autoArmed = true;
+        this._autoCheck();
+      }
+      this.requestUpdate();
+    }
+
+    _inViewport() {
+      const r = this.getBoundingClientRect();
+      if (!r.width || !r.height) return false;
+      return (
+        r.bottom > 0 &&
+        r.right > 0 &&
+        r.top < (window.innerHeight || document.documentElement.clientHeight) &&
+        r.left < (window.innerWidth || document.documentElement.clientWidth)
+      );
+    }
+
+    // true, wenn die Karte zwei Pruefungen in Folge ausserhalb des Bildschirms war
+    // (faengt Pop-ups ab, die nur weggeschoben statt per CSS versteckt werden).
+    _offscreenLong() {
+      if (this._inViewport()) {
+        this._offscreenTicks = 0;
+        return false;
+      }
+      this._offscreenTicks = (this._offscreenTicks || 0) + 1;
+      return this._offscreenTicks >= 2;
+    }
+
+    _startAutoWatch() {
+      this._stopAutoWatch();
+      this._autoInterval = setInterval(() => this._autoCheck(), 400);
+    }
+
+    _stopAutoWatch() {
+      if (this._autoInterval) {
+        clearInterval(this._autoInterval);
+        this._autoInterval = null;
+      }
+    }
+
+    _autoCheck() {
+      if (!this._autoLive || !this.config || !this._hass) return;
+      const visible = this._isVisible() && this._inViewport();
+      if (!visible) {
+        this._autoArmed = true;
+        return;
+      }
+      if (this._autoArmed && !this._liveActive && !this._connecting && this._mode === 'live') {
+        this._autoArmed = false;
+        this._log('Auto-Livestream: Karte sichtbar - starte');
+        this._startLive();
+      }
+    }
+
     _startLive() {
       this._mode = 'live';
       this._liveActive = true;
@@ -844,7 +935,7 @@ if (!customElements.get('the-boring-camera-card')) {
     _startVisibilityWatch() {
       this._stopVisibilityWatch();
       this._visibilityInterval = setInterval(() => {
-        if (!this._isVisible()) {
+        if (!this._isVisible() || this._offscreenLong()) {
           this._log('Karte nicht mehr sichtbar (Pop-up geschlossen o.ä.) — Übertragung wird beendet');
           this._closeSession();
         }
@@ -1265,6 +1356,11 @@ if (!customElements.get('the-boring-camera-card')) {
                   ${this._activeStreamName() === this.config.go2rtc_url_sub ? 'SD' : 'HD'}
                 </button>`
               : ''}
+            <button class="ctrl-btn auto-btn ${this._autoLive ? 'on' : ''}" @click=${this._toggleAutoLive} title="Auto-Livestream: startet automatisch, sobald die Karte sichtbar ist">
+              <ha-icon icon="mdi:play-circle-outline"></ha-icon>
+              Auto
+              <span class="auto-sw"><span class="auto-knob"></span></span>
+            </button>
           </div>
 
           ${this._dayPickerOpen
@@ -1604,6 +1700,38 @@ if (!customElements.get('the-boring-camera-card')) {
         }
         .ctrl-btn.quality-btn {
           padding: 6px 12px;
+        }
+        .ctrl-btn.auto-btn {
+          padding: 6px 10px;
+          gap: 6px;
+        }
+        .auto-sw {
+          position: relative;
+          flex: 0 0 auto;
+          width: 22px;
+          height: 12px;
+          border-radius: 6px;
+          background: rgba(127, 127, 127, 0.45);
+          transition: background 0.2s;
+        }
+        .auto-knob {
+          position: absolute;
+          top: 1px;
+          left: 1px;
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background: #fff;
+          transition: transform 0.2s;
+        }
+        .ctrl-btn.auto-btn.on {
+          opacity: 1;
+        }
+        .ctrl-btn.auto-btn.on .auto-sw {
+          background: #34c759;
+        }
+        .ctrl-btn.auto-btn.on .auto-knob {
+          transform: translateX(10px);
         }
         .today-btn {
           flex: 0 0 auto;

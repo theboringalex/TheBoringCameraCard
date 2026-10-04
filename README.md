@@ -11,7 +11,7 @@ camera's speaker, and a strip of past recordings you can scroll through and
 tap to play. No coding and no YAML needed to set it up — just pick your
 camera from a dropdown.
 
-![screenshot placeholder](docs/screenshot.png)
+<p align="center"><img src="docs/screenshot.png" width="320" alt="The Boring Camera Card in a Home Assistant dashboard"></p>
 
 ## What it does
 
@@ -21,6 +21,7 @@ camera from a dropdown.
 - Press and hold a recording to download or delete it, or just double-click/double-tap it to download it right away
 - Choose the video shape that fits your camera: wide (16:9), classic (4:3), square (1:1), or tall (3:4, great for doorbells)
 - If your camera offers two video qualities (common on Reolink cameras), the card can use the lower-quality one to save data while you're just glancing at it, and automatically switch to full quality the moment you go fullscreen
+- An **Auto live stream** switch next to the SD/HD button (per camera): on = the live view starts by itself as soon as the card is visible (e.g. when a pop-up opens) and stops when it closes; off = it starts when you press play
 - A simple, visual settings screen — fill in a form, no code
 
 ## Before you start
