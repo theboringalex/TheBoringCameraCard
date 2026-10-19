@@ -68,6 +68,16 @@ Pick your camera, optionally the recordings folder, and switch on push-to-talk i
 
 Copy `the-boring-camera-card.js` to `config/www/`, then add the resource `/local/the-boring-camera-card.js` (type *JavaScript module*) as in step 3 and continue with step 4.
 
+### Prefer YAML?
+
+Every setting can also be written in YAML — see the **[YAML configuration guide](docs/yaml-configuration.md)** with examples and all options.
+
+```yaml
+type: custom:the-boring-camera-card
+entity: camera.front_door
+media_folder: media-source://media_source/local/Cameras/FrontDoor
+```
+
 ## Advanced settings
 
 The card's **Advanced** section holds options most people never need:

@@ -68,6 +68,16 @@ Kamera auswählen, optional den Aufzeichnungsordner angeben und Push-to-Talk ein
 
 `the-boring-camera-card.js` nach `config/www/` kopieren, die Ressource `/local/the-boring-camera-card.js` (Typ *JavaScript-Modul*) wie in Schritt 3 eintragen und mit Schritt 4 weitermachen.
 
+### Lieber YAML?
+
+Alle Einstellungen lassen sich auch in YAML schreiben — siehe die **[YAML-Anleitung](docs/yaml-konfiguration.md)** mit Beispielen und allen Optionen.
+
+```yaml
+type: custom:the-boring-camera-card
+entity: camera.haustuer
+media_folder: media-source://media_source/local/Kamera/Haustuer
+```
+
 ## Erweiterte Einstellungen
 
 Der Abschnitt **Erweitert** der Karte enthält Optionen, die die meisten nie brauchen:
