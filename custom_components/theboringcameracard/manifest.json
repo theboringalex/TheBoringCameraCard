@@ -1,0 +1,24 @@
+{
+  "domain": "theboringcameracard",
+  "name": "The Boring Camera Card",
+  "after_dependencies": [
+    "go2rtc",
+    "reolink"
+  ],
+  "codeowners": [
+    "@theboringalex"
+  ],
+  "config_flow": true,
+  "dependencies": [
+    "frontend",
+    "http",
+    "media_source",
+    "websocket_api"
+  ],
+  "documentation": "https://github.com/theboringalex/TheBoringCameraCard",
+  "integration_type": "service",
+  "iot_class": "calculated",
+  "issue_tracker": "https://github.com/theboringalex/TheBoringCameraCard/issues",
+  "single_config_entry": true,
+  "version": "1.0.0"
+}
