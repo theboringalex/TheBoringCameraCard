@@ -1,0 +1,92 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "The Boring Camera Card",
+        "description": "Optional go2rtc settings. Leave everything empty to let the card find go2rtc automatically. Cameras are added afterwards, one by one, with **Add camera**.",
+        "data": {
+          "go2rtc_server_lan": "go2rtc server in your network",
+          "go2rtc_ingress": "go2rtc ingress path (remote access)",
+          "go2rtc_server": "go2rtc external address (fallback)",
+          "go2rtc_token": "go2rtc access token"
+        },
+        "data_description": {
+          "go2rtc_server_lan": "Only needed if go2rtc does not run on the same host as Home Assistant, e.g. http://192.168.1.50:1984.",
+          "go2rtc_ingress": "Only for the go2rtc add-on. Lets the card reach go2rtc from outside through Home Assistant.",
+          "go2rtc_server": "Alternative address of go2rtc when you are not at home.",
+          "go2rtc_token": "Only needed if your own reverse proxy in front of go2rtc requires a token."
+        }
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "The integration is already set up. Add more cameras from its page with **Add camera**."
+    }
+  },
+  "config_subentries": {
+    "camera": {
+      "initiate_flow": {
+        "user": "Add camera",
+        "reconfigure": "Edit camera"
+      },
+      "entry_type": "Camera",
+      "step": {
+        "user": {
+          "title": "Choose the camera",
+          "description": "Everything else (streams, recordings folder, doorbell settings) is looked up automatically in the next step.",
+          "data": {
+            "entity": "Camera"
+          }
+        },
+        "details": {
+          "title": "Check the camera settings",
+          "description": "Found automatically:\n{found}\n\nCorrect anything that is not right.",
+          "data": {
+            "title": "Name in the card",
+            "go2rtc_url": "go2rtc stream (main)",
+            "go2rtc_url_sub": "go2rtc stream (lower quality, optional)",
+            "media_folder": "Recordings folder",
+            "mic": "Push-to-talk",
+            "aspect_ratio": "Video shape",
+            "faces": "Show faces (TheBoringFace)"
+          },
+          "data_description": {
+            "go2rtc_url": "Name of the stream in go2rtc.",
+            "go2rtc_url_sub": "Saves data in the normal view; fullscreen switches to the main stream.",
+            "media_folder": "Folder in the media browser with this camera's recordings. Leave empty for live view only.",
+            "mic": "Needs a camera with a back channel, e.g. a video doorbell.",
+            "faces": "Shows faces from files named <recording>__face__<name>.jpg."
+          }
+        },
+        "reconfigure": {
+          "title": "Edit camera",
+          "description": "Settings of {entity}.",
+          "data": {
+            "title": "Name in the card",
+            "go2rtc_url": "go2rtc stream (main)",
+            "go2rtc_url_sub": "go2rtc stream (lower quality, optional)",
+            "media_folder": "Recordings folder",
+            "mic": "Push-to-talk",
+            "aspect_ratio": "Video shape",
+            "faces": "Show faces (TheBoringFace)"
+          }
+        }
+      },
+      "abort": {
+        "reconfigure_successful": "The camera was updated."
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "go2rtc settings",
+        "data": {
+          "go2rtc_server_lan": "go2rtc server in your network",
+          "go2rtc_ingress": "go2rtc ingress path (remote access)",
+          "go2rtc_server": "go2rtc external address (fallback)",
+          "go2rtc_token": "go2rtc access token"
+        }
+      }
+    }
+  }
+}
