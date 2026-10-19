@@ -1,6 +1,5 @@
 {
   "name": "The Boring Camera Card",
-  "render_readme": true,
-  "filename": "the-boring-camera-card.js",
-  "content_in_root": true
+  "homeassistant": "2025.3.0",
+  "render_readme": true
 }
