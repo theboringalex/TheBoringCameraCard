@@ -1,4 +1,3 @@
-// the-boring-camera-card.js
 // Home-Assistant Custom Lovelace Card im Stil der Apple-Home-Kamera-Ansicht.
 // Live-Stream direkt über go2rtc (eigene WebRTC-Signalisierung, kein Fremd-Card-Wrapper
 // mehr), dezenter Play/Pause-Schalter, Ton/Vollbild-Pille, Push2Talk-Button, waagerechte
@@ -36,7 +35,7 @@ if (!customElements.get('the-boring-camera-card')) {
   const THUMB_H = 126;
   const THUMB_CACHE_MAX = 60;
   const LONG_PRESS_MS = 550;
-  const CARD_VERSION = '1.0.0';
+  const CARD_VERSION = '1.1.0';
 
   // ---------- Objekterkennung (Person / Tier / Fahrzeug) ----------
   // Quelle sind die Binärsensoren der Reolink-Integration (KI-Erkennung der Kamera).
@@ -1528,6 +1527,15 @@ if (!customElements.get('the-boring-camera-card')) {
           type: 'media_source/local_source/remove',
           media_content_id: clip.item.media_content_id,
         });
+        // Zugehörige Gesichts-Dateien (<Clip>__face__<Name>.jpg) mit entfernen, damit keine Waisen bleiben.
+        for (const f of clip.faces || []) {
+          try {
+            await this._hass.callWS({ type: 'media_source/local_source/remove', media_content_id: f.item.media_content_id });
+            this._faceCache.delete(f.item.media_content_id);
+          } catch (e) {
+            this._log('Gesichts-Datei konnte nicht gelöscht werden', f.item.media_content_id, e.message || e);
+          }
+        }
         this._clips = this._clips.filter((c) => c !== clip);
         this._thumbCache.delete(clip.item.media_content_id);
         this._persistThumbCache();
