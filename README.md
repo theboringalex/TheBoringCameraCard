@@ -25,7 +25,7 @@ tap to play.
 - Live view of your camera through [go2rtc](https://github.com/AlexxIT/go2rtc), which Home Assistant already includes — fast, at home and away
 - Push-to-talk, if your camera can play sound back (most video doorbells can)
 - A row of thumbnails of past recordings with a fixed "Today" button; press and hold to download or delete
-- Person / animal / vehicle markers on the thumbnails (Reolink AI detection) and round face avatars (e.g. from TheBoringFace)
+- Person / animal / vehicle markers on the thumbnails (Reolink AI detection) and round face avatars (e.g. from [TheBoringFace](https://github.com/theboringalex/TheBoringFace))
 - A lower-quality stream in the normal view to save data, full quality in fullscreen
 - Auto live stream: starts by itself when the card becomes visible, stops when it is hidden
 - Shapes to fit your camera: 16:9, 4:3, 1:1, or tall 3:4 for doorbells
@@ -98,8 +98,9 @@ The card's **Advanced** section holds options most people never need:
 - **Person / animal / vehicle:** if your camera has AI detection (e.g. Reolink), a coloured
   dot appears at the bottom right of each thumbnail: blue = person, orange = animal,
   purple = vehicle. The sensors are found automatically from the camera's device.
-- **Faces:** images next to a recording named `<recording>__face__<Name>.jpg` (e.g. from
-  TheBoringFace) are shown as a round avatar at the top right.
+- **Faces:** images next to a recording named `<recording>__face__<Name>.jpg` are shown as a
+  round avatar at the top right. They are created by [TheBoringFace](https://github.com/theboringalex/TheBoringFace) —
+  step by step: **[face recognition guide](docs/theboringface.md)**.
 
 ## A couple of things to know
 

@@ -25,7 +25,7 @@ kannst.
 - Live-Bild deiner Kamera über [go2rtc](https://github.com/AlexxIT/go2rtc), das Home Assistant schon mitbringt — schnell, zu Hause und unterwegs
 - Push-to-Talk, wenn deine Kamera Ton wiedergeben kann (die meisten Video-Türklingeln können das)
 - Eine Leiste mit Vorschaubildern vergangener Aufnahmen und festem „Heute"-Knopf; lang drücken zum Herunterladen oder Löschen
-- Markierungen für Person / Tier / Fahrzeug an den Vorschaubildern (Reolink-KI-Erkennung) und runde Gesichts-Avatare (z. B. von TheBoringFace)
+- Markierungen für Person / Tier / Fahrzeug an den Vorschaubildern (Reolink-KI-Erkennung) und runde Gesichts-Avatare (z. B. von [TheBoringFace](https://github.com/theboringalex/TheBoringFace))
 - Ein Stream mit niedrigerer Qualität in der normalen Ansicht spart Daten, im Vollbild gibt es volle Qualität
 - Auto-Livestream: startet von selbst, sobald die Karte sichtbar wird, und stoppt, wenn sie verschwindet
 - Formate passend zur Kamera: 16:9, 4:3, 1:1 oder hoch 3:4 für Türklingeln
@@ -98,8 +98,9 @@ Der Abschnitt **Erweitert** der Karte enthält Optionen, die die meisten nie bra
 - **Person / Tier / Fahrzeug:** Hat deine Kamera KI-Erkennung (z. B. Reolink), erscheint unten rechts an
   jedem Vorschaubild ein farbiger Punkt: blau = Person, orange = Tier, lila = Fahrzeug. Die Sensoren
   werden automatisch am Gerät der Kamera gefunden.
-- **Gesichter:** Bilder neben einer Aufnahme mit dem Namen `<Aufnahme>__face__<Name>.jpg` (z. B. von
-  TheBoringFace) erscheinen als runder Avatar oben rechts.
+- **Gesichter:** Bilder neben einer Aufnahme mit dem Namen `<Aufnahme>__face__<Name>.jpg` erscheinen als
+  runder Avatar oben rechts. Erzeugt werden sie von [TheBoringFace](https://github.com/theboringalex/TheBoringFace) —
+  Schritt-für-Schritt: **[Anleitung zur Gesichtserkennung](docs/theboringface.de.md)**.
 
 ## Ein paar Dinge, die gut zu wissen sind
 

@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.0
+
+- Deleting a recording from the card (long press) now also deletes its face images (`<recording>__face__<Name>.jpg`), so no orphaned files are left behind.
+- New guide for the face recognition with [TheBoringFace](https://github.com/theboringalex/TheBoringFace): [English](docs/theboringface.md) / [Deutsch](docs/theboringface.de.md).
+
 ## 1.0.0
 
 - First release of The Boring Camera Card as a plain dashboard card (HACS category *Dashboard*).
